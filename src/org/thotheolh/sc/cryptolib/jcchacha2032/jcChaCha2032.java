@@ -1,7 +1,32 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * The 3-Clause BSD License
+ *
+ * Copyright 2019 Thotheolh 
+ * Redistribution and use in source and binary forms, with or without 
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice, 
+ *    this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice, 
+ *    this list of conditions and the following disclaimer in the documentation 
+ *    and/or other materials provided with the distribution.
+ * 
+ * 3. Neither the name of the copyright holder nor the names of its contributors 
+ *    may be used to endorse or promote products derived from this software 
+ *    without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * POSSIBILITY OF SUCH DAMAGE.
  */
 
 package org.thotheolh.sc.cryptolib.jcchacha2032;
@@ -10,11 +35,14 @@ import javacard.framework.*;
 import javacardx.framework.util.intx.JCint;
 
 /**
+ * Please ensure your JavaCard have 32-bit math integer support. Ask the card
+ * supplier whom you have purchased your JavaCard from before using these codes
+ * otherwise it wouldn't work on your JavaCard smart card.
  *
  * @author Thotheolh
  */
 public class jcChaCha2032 extends Applet {
-    
+
     private short[] sBuff = JCSystem.makeTransientShortArray((short) 2, JCSystem.CLEAR_ON_RESET);
     private byte[] nonce = JCSystem.makeTransientByteArray((short) 12, JCSystem.CLEAR_ON_RESET);
     private byte[] counter = JCSystem.makeTransientByteArray((short) 4, JCSystem.CLEAR_ON_RESET);
@@ -25,16 +53,16 @@ public class jcChaCha2032 extends Applet {
 
     /**
      * Installs this applet.
-     * 
+     *
      * @param bArray
-     *            the array containing installation parameters
+     * the array containing installation parameters
      * @param bOffset
-     *            the starting offset in bArray
+     * the starting offset in bArray
      * @param bLength
-     *            the length in bytes of the parameter data in bArray
+     * the length in bytes of the parameter data in bArray
      */
     public static void install(byte[] bArray, short bOffset, byte bLength) {
-        new jcChaCha2032();        
+        new jcChaCha2032();
         cipher = new ChaCha20();
     }
 
@@ -47,10 +75,10 @@ public class jcChaCha2032 extends Applet {
 
     /**
      * Processes an incoming APDU.
-     * 
+     *
      * @see APDU
      * @param apdu
-     *            the incoming APDU
+     * the incoming APDU
      */
     public void process(APDU apdu) {
         //Insert your code here
@@ -79,7 +107,7 @@ public class jcChaCha2032 extends Applet {
                     if ((buffer[ISO7816.OFFSET_LC] & 0xFF) > 48) {
 
                         // Copy nonce
-                       Util.arrayCopyNonAtomic(buffer, (short) 5, nonce, (short) 0, (short) 12);
+                        Util.arrayCopyNonAtomic(buffer, (short) 5, nonce, (short) 0, (short) 12);
 
                         // Copy counter
                         Util.arrayCopyNonAtomic(buffer, (short) 17, counter, (short) 0, (short) 4);
